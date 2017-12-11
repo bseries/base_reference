@@ -98,7 +98,7 @@ class References extends \lithium\template\Helper {
 		if (strpos($source, '://') === false) {
 			return sprintf('<span class="ref__title">%s</span>', $title);
 		}
-		return $this->_context->html->link($source, [
+		return $this->_context->html->link($title, $source, [
 			'class' => 'ref__title'
 		]);
 	}
@@ -107,12 +107,12 @@ class References extends \lithium\template\Helper {
 		if (!$license->url) {
 			return sprintf(
 				'<span class="ref__license">%s</span>',
-				$style === 'long' ? $license['title'] : $license['name']
+				$style === 'long' ? $license->title : $license->name
 			);
 		}
 		return $this->_context->html->link(
-			$style === 'long' ? $license['title'] : $license['name'],
-			$license['url'],
+			$style === 'long' ? $license->title : $license->name,
+			$license->url,
 			['class' => 'ref__license']
 		);
 	}
