@@ -5,6 +5,7 @@ CREATE TABLE `references` (
   `authors` varchar(250) DEFAULT NULL,
   `source` varchar(250) DEFAULT NULL,
   `license` varchar(50) DEFAULT NULL COMMENT 'SPDX license identifier',
+  `changes` varchar(250) DEFAULT NULL,
   `created` datetime NOT NULL,
   `modified` datetime NOT NULL,
   PRIMARY KEY (`id`)

@@ -28,7 +28,7 @@ class References extends \lithium\template\Helper {
 	// <currently unused>
 	//
 	// long-style:
-	// `<number> <name>, <source>, <short license>
+	// `<number> <authors>, <title, linked with source>, <changes>, <short license, linked>
 	public function cite(Entity $entity, array $options = []) {
 		$options += ['style' => 'short'];
 
@@ -41,11 +41,12 @@ class References extends \lithium\template\Helper {
 				$this->_context->html->link($number, "#ref-{$number}", ['class' => 'ref__number'])
 			);
 		}
-		return sprintf('<div id="citation-%d" class="ref">%s %s, %s, %s</div>',
+		return sprintf('<div id="citation-%d" class="ref">%s %s, %s, %s, %s</div>',
 			$number,
 			$this->_context->html->link($number, "#ref-{$number}", ['class' => 'ref__number']),
 			$this->_authors($entity->authors(['serialized' => true])),
-			$this->_source($entity->source),
+			$this->_title($entity->title, $entity->source),
+			$this->_changes($entity->changes(['serialized' => true])),
 			$this->_license($entity->license(), 'short')
 		);
 	}
@@ -65,16 +66,17 @@ class References extends \lithium\template\Helper {
 	// a reference list section.
 	//
 	// style:
-	// `<back> <number> <name>, <source>, <long license>
+	// `<back> <number> <authors>, <title, linked with source>, <changes>, <long license, linked>
 	protected function _item($key, Entity $entity) {
 		$number = $key + 1;
 
-		return sprintf('<div id="ref-%d" class="ref">%s %s %s, %s, %s</div>',
+		return sprintf('<div id="ref-%d" class="ref">%s %s %s, %s, %s, %s</div>',
 			$number,
 			$this->_context->html->link('hochspringen', "#citation-{$number}", ['class' => 'ref__back']),
 			$this->_number($number),
 			$this->_authors($entity->authors(['serialized' => true])),
-			$this->_source($entity->source),
+			$this->_title($entity->title, $entity->source),
+			$this->_changes($entity->changes(['serialized' => true])),
 			$this->_license($entity->license(), 'long')
 		);
 	}
@@ -87,30 +89,27 @@ class References extends \lithium\template\Helper {
 		return sprintf('<span class="ref__authors">%s</span>', $names);
 	}
 
-	// Either takes a destrciption of the source or an URL and outputs an anchor element
-	// for it. When possible, will use a nicely formatted title instead of the URL itself
-	// for known locations.
-	protected function _source($source) {
+	protected function _changes($changes) {
+		return sprintf('<span class="ref__changes">%s</span>', $changes);
+	}
+
+	// Returns a linked to source title, when source is an URL.
+	protected function _title($title, $source) {
 		if (strpos($source, '://') === false) {
-			return $source;
-		}
-		// Map of regular expressions to titles.
-		$known = [
-			'#^https://commons.wikimedia.org#' => 'Wikimedia Commons'
-		];
-		foreach ($known as $match => $title) {
-			if (preg_match($match, $source)) {
-				return $this->_context->html->link($title, $source, [
-					'class' => 'ref__source'
-				]);
-			}
+			return sprintf('<span class="ref__title">%s</span>', $title);
 		}
 		return $this->_context->html->link($source, [
-			'class' => 'ref__source'
+			'class' => 'ref__title'
 		]);
 	}
 
-	protected function _license(array $license, $style = 'long') {
+	protected function _license(Entity $license, $style = 'long') {
+		if (!$license->url) {
+			return sprintf(
+				'<span class="ref__license">%s</span>',
+				$style === 'long' ? $license['title'] : $license['name']
+			);
+		}
 		return $this->_context->html->link(
 			$style === 'long' ? $license['title'] : $license['name'],
 			$license['url'],

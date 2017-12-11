@@ -9,7 +9,7 @@ $t = function($message, array $options = []) {
 $this->set([
 	'page' => [
 		'type' => 'multiple',
-		'object' => $t('tags')
+		'object' => $t('references')
 	]
 ]);
 
