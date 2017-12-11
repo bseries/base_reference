@@ -41,13 +41,24 @@ class References extends \lithium\template\Helper {
 				$this->_context->html->link($number, "#ref-{$number}", ['class' => 'ref__number'])
 			);
 		}
-		return sprintf('<div id="citation-%d" class="ref">%s %s, %s, %s, %s</div>',
+		$parts = [];
+
+		if ($entity->authors) {
+			$parts[] = $this->_authors($entity->authors(['serialized' => true]));
+		}
+		if ($entity->title) {
+			$parts[] = $this->_title($entity->title, $entity->source);
+		}
+		if ($entity->changes) {
+			$parts[] = $this->_changes($entity->changes(['serialized' => true]));
+		}
+		if ($entity->license) {
+			$parts[] = $this->_license($entity->license(), 'short');
+		}
+		return sprintf('<div id="citation-%d" class="ref">%s %s</div>',
 			$number,
 			$this->_context->html->link($number, "#ref-{$number}", ['class' => 'ref__number']),
-			$this->_authors($entity->authors(['serialized' => true])),
-			$this->_title($entity->title, $entity->source),
-			$this->_changes($entity->changes(['serialized' => true])),
-			$this->_license($entity->license(), 'short')
+			implode(', ', $parts)
 		);
 	}
 
@@ -70,14 +81,25 @@ class References extends \lithium\template\Helper {
 	protected function _item($key, Entity $entity) {
 		$number = $key + 1;
 
-		return sprintf('<div id="ref-%d" class="ref">%s %s %s, %s, %s, %s</div>',
+		$parts = [];
+
+		if ($entity->authors) {
+			$parts[] = $this->_authors($entity->authors(['serialized' => true]));
+		}
+		if ($entity->title) {
+			$parts[] = $this->_title($entity->title, $entity->source);
+		}
+		if ($entity->changes) {
+			$parts[] = $this->_changes($entity->changes(['serialized' => true]));
+		}
+		if ($entity->license) {
+			$parts[] = $this->_license($entity->license(), 'short');
+		}
+		return sprintf('<div id="ref-%d" class="ref">%s %s %s</div>',
 			$number,
 			$this->_context->html->link('hochspringen', "#citation-{$number}", ['class' => 'ref__back']),
 			$this->_number($number),
-			$this->_authors($entity->authors(['serialized' => true])),
-			$this->_title($entity->title, $entity->source),
-			$this->_changes($entity->changes(['serialized' => true])),
-			$this->_license($entity->license(), 'long')
+			implode(', ', $parts)
 		);
 	}
 
