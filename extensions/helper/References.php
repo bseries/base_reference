@@ -6,7 +6,7 @@
  * license that can be found in the LICENSE file.
  */
 
-namespace app\extensions\helper;
+namespace base_reference\extensions\helper;
 
 use lithium\data\Entity;
 
