@@ -9,6 +9,7 @@
 namespace base_reference\extensions\helper;
 
 use lithium\data\Entity;
+use lithium\g11n\Message;
 
 class References extends \lithium\template\Helper {
 
@@ -30,6 +31,8 @@ class References extends \lithium\template\Helper {
 	// long-style:
 	// `<number> <authors>, <title, linked with source>, <changes>, <short license, linked>`
 	public function cite(Entity $entity, array $options = []) {
+		extract(Message::aliases());
+
 		$options += ['style' => 'short', 'class' => null];
 
 		$this->_cited[] = $entity;
@@ -41,10 +44,14 @@ class References extends \lithium\template\Helper {
 		}
 
 		if ($options['style'] === 'short') {
-			return sprintf('<div id="citation-%d" class="%s">%s</div>',
+			return sprintf('<div id="citation-%d" class="%s" aria-label="%s">%s</div>',
 				$number,
 				$class,
-				$this->_context->html->link($number, "#ref-{$number}", ['class' => 'ref__number'])
+				$t('citation number {:number}', ['number' => $number, 'scope' => 'base_reference']),
+				$this->_context->html->link($number, "#ref-{$number}", [
+					'class' => 'ref__number',
+					'aria-label' => $t('jump to reference in index', ['scope' => 'base_reference'])
+				])
 			);
 		}
 		$parts = [];
@@ -61,9 +68,13 @@ class References extends \lithium\template\Helper {
 		if ($entity->license) {
 			$parts[] = $this->_license($entity->license(), 'short');
 		}
-		return sprintf('<div id="citation-%d" class="ref">%s %s</div>',
+		return sprintf('<div id="citation-%d" class="ref" aria-label="%s">%s %s</div>',
 			$number,
-			$this->_context->html->link($number, "#ref-{$number}", ['class' => 'ref__number']),
+			$t('citation number {:number}', ['number' => $number, 'scope' => 'base_reference']),
+			$this->_context->html->link($number, "#ref-{$number}", [
+				'class' => 'ref__number',
+				'aria-label' => $t('jump to reference in index', ['scope' => 'base_reference'])
+			]),
 			implode(', ', $parts)
 		);
 	}
@@ -85,6 +96,8 @@ class References extends \lithium\template\Helper {
 	// style:
 	// `<back> <number> <authors>, <title, linked with source>, <changes>, <long license, linked>`
 	protected function _item($key, Entity $entity) {
+		extract(Message::aliases());
+
 		$number = $key + 1;
 
 		$parts = [];
@@ -101,16 +114,25 @@ class References extends \lithium\template\Helper {
 		if ($entity->license) {
 			$parts[] = $this->_license($entity->license(), 'short');
 		}
-		return sprintf('<div id="ref-%d" class="ref">%s %s %s</div>',
+		return sprintf('<div id="ref-%d" class="ref" aria-label="%s">%s %s %s</div>',
 			$number,
-			$this->_context->html->link('hochspringen', "#citation-{$number}", ['class' => 'ref__back']),
+			$t('reference number {:number}', ['number' => $number, 'scope' => 'base_reference']),
+			$this->_context->html->link(
+				$t('jump back to citation', ['scope' => 'base_reference']),
+				"#citation-{$number}",
+				['class' => 'ref__back']),
 			$this->_number($number),
 			implode(', ', $parts)
 		);
 	}
 
 	protected function _number($key) {
-		return sprintf('<span class="ref__number">%d</span>', $key + 1);
+		extract(Message::aliases());
+
+		return sprintf('<span class="ref__number" aria-label="%s">%d</span>',
+			$t('reference number {:number}', ['number' => $key + 1, 'scope' => 'base_reference']),
+			$key + 1
+		);
 	}
 
 	protected function _authors($names) {
