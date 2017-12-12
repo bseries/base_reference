@@ -68,8 +68,9 @@ class References extends \lithium\template\Helper {
 		if ($entity->license) {
 			$parts[] = $this->_license($entity->license(), 'short');
 		}
-		return sprintf('<div id="citation-%d" class="ref" aria-label="%s">%s %s</div>',
+		return sprintf('<div id="citation-%d" class="%s" aria-label="%s">%s %s</div>',
 			$number,
+			$class,
 			$t('citation number {:number}', ['number' => $number, 'scope' => 'base_reference']),
 			$this->_context->html->link($number, "#ref-{$number}", [
 				'class' => 'ref__number',
