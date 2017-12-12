@@ -18,8 +18,8 @@ class References extends \lithium\template\Helper {
 	// Generates a HTML fragmet for insertion next to the text or media.
 	//
 	// The reference style can be changed via the `style` option. It can either be `long`,
-	// `medium` or `short`. Remembers rendered quotes so we can output a numbered list
-	// using `quoted()` later.
+	// `medium` or `short`. Remembers rendered citation so we can output a numbered list
+	// using `index()` later.
 	//
 	// short-style:
 	// `<number>`
@@ -28,16 +28,22 @@ class References extends \lithium\template\Helper {
 	// <currently unused>
 	//
 	// long-style:
-	// `<number> <authors>, <title, linked with source>, <changes>, <short license, linked>
+	// `<number> <authors>, <title, linked with source>, <changes>, <short license, linked>`
 	public function cite(Entity $entity, array $options = []) {
-		$options += ['style' => 'short'];
+		$options += ['style' => 'short', 'class' => null];
 
 		$this->_cited[] = $entity;
 		$number = count($this->_cited);
 
+		$class = 'ref';
+		if ($options['class']) {
+			$class .= " {$options['class']}";
+		}
+
 		if ($options['style'] === 'short') {
-			return sprintf('<div id="citation-%d" class="ref">%s</div>',
+			return sprintf('<div id="citation-%d" class="%s">%s</div>',
 				$number,
+				$class,
 				$this->_context->html->link($number, "#ref-{$number}", ['class' => 'ref__number'])
 			);
 		}
@@ -77,7 +83,7 @@ class References extends \lithium\template\Helper {
 	// a reference list section.
 	//
 	// style:
-	// `<back> <number> <authors>, <title, linked with source>, <changes>, <long license, linked>
+	// `<back> <number> <authors>, <title, linked with source>, <changes>, <long license, linked>`
 	protected function _item($key, Entity $entity) {
 		$number = $key + 1;
 
