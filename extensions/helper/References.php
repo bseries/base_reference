@@ -122,7 +122,7 @@ class References extends \lithium\template\Helper {
 				$t('jump back to citation', ['scope' => 'base_reference']),
 				"#citation-{$number}",
 				['class' => 'ref__back']),
-			$this->_number($number),
+			$this->_number($key),
 			implode(', ', $parts)
 		);
 	}
