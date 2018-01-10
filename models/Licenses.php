@@ -55,11 +55,11 @@ class Licenses extends \base_core\models\Base {
 				$ccUrl = function ($name) {
 					$baseUrl = 'https://creativecommons.org/';
 					if (strpos($name, 'CC0') === 0) {
-						return $baseUrl . 'about/cc0/';
+						return $baseUrl . 'publicdomain/zero/1.0/legalcode';
 					}
 					$type = strtolower(substr($name, 3, -4));
 					$version = substr($name, -3);
-					return $baseUrl . 'licenses/' . $type . '/' . $version . '/';
+					return $baseUrl . 'licenses/' . $type . '/' . $version . '/legalcode';
 				};
 
 				$url = $ccUrl($name);
