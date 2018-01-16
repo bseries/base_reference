@@ -10,6 +10,7 @@ namespace base_reference\models;
 
 use Exception;
 use Composer\Spdx\SpdxLicenses;
+use ReflectionClass;
 
 class Licenses extends \base_core\models\Base {
 
@@ -64,14 +65,32 @@ class Licenses extends \base_core\models\Base {
 
 				$url = $ccUrl($name);
 			}
+
 			// Remap to our data structure, pretend as if this is a database
 			// result. We might later turn this into a real entity object.
 			return static::create([
 				'name' => $name,
 				'title' => $result[0],
 				'is_osi_certified' => $result[1],
+				'is_deprecated' => $result[3],
 				'url' => $url
 			]);
+		});
+
+		// FIXME Once https://github.com/composer/spdx-licenses/pull/18 has been
+		// merged use that new method.
+		static::finder('list', function($params, $next) {
+			$results = [];
+
+			$licenses = clone static::$_licenses;
+			$class = new ReflectionClass($licenses);
+			$property = $class->getProperty('licenses');
+			$property->setAccessible(true);
+
+			foreach ($property->getValue($licenses) as $id => $license) {
+				$results[$id] = $license[0];
+			}
+			return $results;
 		});
 	}
 }

@@ -71,7 +71,8 @@ $this->set([
 			<div class="grid-column-right">
 				<?= $this->form->field('license', [
 					'type' => 'text',
-					'label' => $t('License')
+					'label' => $t('License'),
+					'list' => $licenseSuggestions
 				]) ?>
 				<div class="help">
 					<?php echo $t('A {:SPDX_license_identifier} or a freeform license string.', [
