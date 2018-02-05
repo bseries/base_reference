@@ -18,10 +18,11 @@ class ReferencesController extends \base_core\controllers\BaseController {
 	use \base_core\controllers\AdminDeleteTrait;
 
 	protected function _selects($item = null) {
-		$licenseSuggestions = array_filter(array_keys(Licenses::find('list')), function($v) {
-			$item = Licenses::find('first', ['conditions' => ['name' => $v]]);
-			return !$item->is_deprecated;
-		});
+		$licenseSuggestions = array_keys(Licenses::find('list', [
+			'conditions' => [
+				'is_deprecated' => false
+			]
+		]));
 		return compact('licenseSuggestions');
 	}
 }

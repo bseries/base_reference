@@ -8,8 +8,8 @@
 
 namespace base_reference\models;
 
-use Exception;
 use Composer\Spdx\SpdxLicenses;
+use Exception;
 use ReflectionClass;
 
 class Licenses extends \base_core\models\Base {
@@ -77,18 +77,28 @@ class Licenses extends \base_core\models\Base {
 			]);
 		});
 
-		// FIXME Once https://github.com/composer/spdx-licenses/pull/18 has been
-		// merged use that new method.
+		// Does support conditions on all fields, but does only
+		// support equal operator.
 		static::finder('list', function($params, $next) {
 			$results = [];
 
-			$licenses = clone static::$_licenses;
-			$class = new ReflectionClass($licenses);
-			$property = $class->getProperty('licenses');
-			$property->setAccessible(true);
-
-			foreach ($property->getValue($licenses) as $id => $license) {
-				$results[$id] = $license[0];
+			$conditions = [];
+			if (isset($params['options']['conditions'])) {
+				$conditions = $params['options']['conditions'];
+			}
+			$map = array_flip([
+				0 => 'name',
+				1 => 'title',
+				2 => 'is_osi_certified',
+				3 => 'is_deprecated'
+			]);
+			foreach (static::$_licenses->getLicenses() as $id => $item) {
+				foreach ($conditions as $key => $value) {
+					if ($item[$map[$key]] !== $value) {
+						continue(2);
+					}
+				}
+				$results[strtoupper($id)] = $item[1];
 			}
 			return $results;
 		});
