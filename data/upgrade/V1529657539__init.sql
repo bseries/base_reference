@@ -9,7 +9,7 @@ CREATE TABLE `references` (
   `created` datetime NOT NULL,
   `modified` datetime NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB;
 
 ALTER TABLE `media` ADD `reference_id` INT(11)  UNSIGNED  NULL  DEFAULT NULL  AFTER `source`;
 
