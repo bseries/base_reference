@@ -1,0 +1,134 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR Atelier Disko
+# This file is distributed under the same license as the base_reference package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: base_reference 1.0\n"
+"Report-Msgid-Bugs-To: info@atelierdisko.de\n"
+"POT-Creation-Date: 2018-07-12 12:51+0200\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+#: config/panes.php:17
+msgid "References"
+msgstr ""
+
+#: extensions/helper/References.php:50 extensions/helper/References.php:74
+msgid "citation number {:number}"
+msgstr ""
+
+#: extensions/helper/References.php:53 extensions/helper/References.php:77
+msgid "jump to reference in index"
+msgstr ""
+
+#: extensions/helper/References.php:120 extensions/helper/References.php:134
+msgid "reference number {:number}"
+msgstr ""
+
+#: extensions/helper/References.php:122
+msgid "jump back to citation"
+msgstr ""
+
+#: models/References.php:41
+msgid "This field cannot be empty."
+msgstr ""
+
+#: views/references/admin_form.html.php:13
+msgid "unnamed"
+msgstr ""
+
+#: views/references/admin_form.html.php:14
+#: views/references/admin_index.html.php:29
+msgid "reference"
+msgstr ""
+
+#: views/references/admin_form.html.php:29
+#: views/references/admin_index.html.php:38
+msgid "Name"
+msgstr ""
+
+#: views/references/admin_form.html.php:32
+msgid "i.e. example2018"
+msgstr ""
+
+#: views/references/admin_form.html.php:40
+#: views/references/admin_index.html.php:40
+msgid "Title"
+msgstr ""
+
+#: views/references/admin_form.html.php:47
+#: views/references/admin_index.html.php:39
+msgid "Author/s"
+msgstr ""
+
+#: views/references/admin_form.html.php:50
+msgid "The original author/s. Separate multiple authors with commas."
+msgstr ""
+
+#: views/references/admin_form.html.php:54
+msgid "Changes"
+msgstr ""
+
+#: views/references/admin_form.html.php:58
+msgid "Authors of modifications, i.e. Color correction by Atelier Disko"
+msgstr ""
+
+#: views/references/admin_form.html.php:59
+msgid "Separate multiple changes with commas."
+msgstr ""
+
+#: views/references/admin_form.html.php:67
+msgid "Source"
+msgstr ""
+
+#: views/references/admin_form.html.php:69
+msgid "An URL or a description of the source."
+msgstr ""
+
+#: views/references/admin_form.html.php:74
+msgid "License"
+msgstr ""
+
+#: views/references/admin_form.html.php:78
+msgid "A {:SPDX_license_identifier} or a freeform license string."
+msgstr ""
+
+#: views/references/admin_form.html.php:80
+msgid "SPDX license identifier"
+msgstr ""
+
+#: views/references/admin_form.html.php:92
+msgid "delete"
+msgstr ""
+
+#: views/references/admin_form.html.php:98
+msgid "save"
+msgstr ""
+
+#: views/references/admin_index.html.php:12
+msgid "references"
+msgstr ""
+
+#: views/references/admin_index.html.php:41
+msgid "Modified"
+msgstr ""
+
+#: views/references/admin_index.html.php:46
+msgid "Filter"
+msgstr ""
+
+#: views/references/admin_index.html.php:62
+msgid "open"
+msgstr ""
+
+#: views/references/admin_index.html.php:67
+msgid "No items available, yet."
+msgstr ""
